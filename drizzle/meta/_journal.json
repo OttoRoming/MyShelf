@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1767114470228,
+      "tag": "0000_cynical_jack_flag",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1767127426196,
+      "tag": "0001_outstanding_red_shift",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1767218615520,
+      "tag": "0002_rapid_wolf_cub",
+      "breakpoints": true
+    }
+  ]
+}
