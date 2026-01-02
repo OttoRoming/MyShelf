@@ -1,10 +1,16 @@
 <script lang="ts">
 	import Book from '$lib/components/Book.svelte';
-	import cover from '$lib/assets/cover.jpg';
+
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
 </script>
 
-<div class="flex min-h-screen items-center justify-center gap-4">
+<div class="flex min-h-full items-center justify-center gap-4">
+	{#each data.books as book (book.id)}
+		<Book title={book.title} author={book.author} cover={book.cover} />
+	{/each}
+	<!-- <Book title="nineteen eighty four" author="george orwell" {cover} />
 	<Book title="nineteen eighty four" author="george orwell" {cover} />
-	<Book title="nineteen eighty four" author="george orwell" {cover} />
-	<Book title="nineteen eighty four" author="george orwell" />
+	<Book title="nineteen eighty four" author="george orwell" /> -->
 </div>
