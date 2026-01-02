@@ -10,3 +10,9 @@
 <div class="min-h-screen bg-bg text-fg">
 	{@render children()}
 </div>
+
+<style>
+	:global(body) {
+		background-color: var(--color-bg);
+	}
+</style>
