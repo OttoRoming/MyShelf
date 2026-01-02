@@ -3,14 +3,22 @@
 	const {
 		type,
 		children,
+		disabled,
 		onclick
-	}: { type?: 'button' | 'submit' | 'reset'; children: Snippet; onclick?: () => void } = $props();
+	}: {
+		type?: 'button' | 'submit' | 'reset';
+		disabled?: boolean;
+		children: Snippet;
+		onclick?: () => void;
+	} = $props();
 </script>
 
 <button
 	{type}
-	class="cursor-pointer rounded-lg bg-bg-dim px-3 py-2 transition-all hover:bg-fg hover:text-bg-dim focus:ring-2 focus:ring-primary focus:outline-none active:scale-95"
+	{disabled}
 	{onclick}
+	class="cursor-pointer rounded-lg bg-bg-dim px-3 py-2 transition-all hover:bg-fg hover:text-bg-dim focus:ring-2 focus:ring-primary focus:outline-none active:scale-95"
+	class:opacity-50={disabled}
 >
 	{@render children()}
 </button>

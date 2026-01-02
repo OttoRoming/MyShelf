@@ -7,7 +7,7 @@
 	let { children }: { children: Snippet } = $props();
 </script>
 
-<div>
+<div class="flex min-h-screen flex-col">
 	<nav class="flex items-center justify-between px-6 py-4 shadow-md">
 		<Button
 			onclick={() => {
@@ -27,5 +27,7 @@
 			>
 		</div>
 	</nav>
-	{@render children()}
+	<div class="grow px-48 pt-12">
+		{@render children()}
+	</div>
 </div>
