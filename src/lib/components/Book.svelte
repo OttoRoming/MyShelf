@@ -1,12 +1,15 @@
 <script lang="ts">
 	import Tilt from './Tilt.svelte';
 
-	let { title, author, cover }: { title: string; author?: string; cover?: string } = $props();
+	let { title, author, cover, id }: { title: string; author?: string; cover?: string; id: string } =
+		$props();
+
+	import { resolve } from '$app/paths';
 </script>
 
 <div>
 	<Tilt>
-		<div class="aspect-5/8 w-40">
+		<a class="block aspect-5/8 w-40" href={resolve('/home/reader/[id]', { id })}>
 			{#if cover}
 				<img src={cover} alt="Book Cover" class="h-full w-full object-cover" />
 			{:else}
@@ -21,6 +24,6 @@
 					</div>
 				</div>
 			{/if}
-		</div>
+		</a>
 	</Tilt>
 </div>

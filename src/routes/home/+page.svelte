@@ -8,7 +8,7 @@
 
 <div class="flex min-h-full items-center justify-center gap-4">
 	{#each data.books as book (book.id)}
-		<Book title={book.title} author={book.author} cover={book.cover} />
+		<Book id={book.id} title={book.title} author={book.author} cover={book.cover} />
 	{/each}
 	<!-- <Book title="nineteen eighty four" author="george orwell" {cover} />
 	<Book title="nineteen eighty four" author="george orwell" {cover} />
