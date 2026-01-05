@@ -27,7 +27,7 @@
 			>
 		</div>
 	</nav>
-	<div class="grow px-48 pt-12">
+	<div class="relative grid grow px-48 pt-12">
 		{@render children()}
 	</div>
 </div>

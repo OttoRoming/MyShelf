@@ -14,4 +14,4 @@
 	});
 </script>
 
-<div id="reader" class="h-full w-full"></div>
+<div id="reader"></div>
