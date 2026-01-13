@@ -14,7 +14,6 @@ export const GET: RequestHandler = async ({ params }) => {
 	}
 
 	const file = Bun.file(`./data/books/${bookId}/ebook.epub`);
-	console.log('uwu');
 	if (!file || !file.size) {
 		throw error(404, 'File not found');
 	}
