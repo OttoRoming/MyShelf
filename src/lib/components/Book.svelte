@@ -7,9 +7,9 @@
 	import { resolve } from '$app/paths';
 </script>
 
-<div>
+<a href={resolve('/home/reader/[id]', { id })}>
 	<Tilt>
-		<a class="block aspect-5/8 w-40" href={resolve('/home/reader/[id]', { id })}>
+		<div class="block aspect-5/8 w-40">
 			{#if cover}
 				<img src={cover} alt="Book Cover" class="h-full w-full object-cover" />
 			{:else}
@@ -24,6 +24,6 @@
 					</div>
 				</div>
 			{/if}
-		</a>
+		</div>
 	</Tilt>
-</div>
+</a>
