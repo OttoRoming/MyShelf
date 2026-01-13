@@ -12,10 +12,10 @@
 		>{item.label}</a
 	>
 	{#if item.subitems}
-		<ul>
+		<ol class="list-disc pl-4">
 			{#each item.subitems as subitem (subitem.id)}
 				<Self {book} item={subitem} />
 			{/each}
-		</ul>
+		</ol>
 	{/if}
 </li>

@@ -76,11 +76,11 @@
 </script>
 
 <div class="flex items-center justify-center gap-2">
-	<ul>
+	<ol class="list-disc">
 		{#each toc as chapter (chapter.id)}
 			<TocItem book={params.id} item={chapter} />
 		{/each}
-	</ul>
+	</ol>
 	<button onclick={prev} bind:this={prevButton} aria-label="previous page">p</button>
 	<div id="reader" class="h-80 w-80"></div>
 	<button onclick={next} bind:this={nextButton} aria-label="next page">n</button>
