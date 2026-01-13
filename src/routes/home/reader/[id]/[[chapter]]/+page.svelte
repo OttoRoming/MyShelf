@@ -1,9 +1,10 @@
 <script lang="ts">
 	import ePub from 'epubjs';
-	import type { Book, Rendition } from 'epubjs';
+	import type { Book, Rendition, NavItem } from 'epubjs';
 	import type { PageProps } from './$types';
+	import { resolve } from '$app/paths';
 
-	import Button from '$lib/components/Button.svelte';
+	import TocItem from '$lib/components/TocItem.svelte';
 
 	let { params }: PageProps = $props();
 
@@ -11,6 +12,7 @@
 	let rendition: Rendition;
 	let nextButton: HTMLButtonElement;
 	let prevButton: HTMLButtonElement;
+	let toc: NavItem[] = $state([]);
 
 	function prev() {
 		const b = book as unknown as { package: { metadata: { direction: string } } };
@@ -30,30 +32,55 @@
 		}
 	}
 
+	function onKeyDown(event: KeyboardEvent) {
+		if (event.key === 'ArrowRight') {
+			next();
+		} else if (event.key === 'ArrowLeft') {
+			prev();
+		}
+	}
+
 	$effect(() => {
+		// destroy previous rendition if it exists
+		toc = [];
+		if (rendition) {
+			rendition.destroy();
+		}
+		window.removeEventListener('keydown', onKeyDown);
+
+		// setup the ePub book and rendition
 		book = ePub(`/api/books/${params.id}/ebook.epub`);
 		rendition = book.renderTo('reader', {
 			width: '100%',
 			height: '100%',
 			spread: 'always'
 		});
-		rendition.display();
+		rendition.display(params.chapter);
 
 		book.ready.then(() => {
 			console.log('Book is ready');
 		});
 
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'ArrowRight') {
-				nextButton.click();
-			} else if (e.key === 'ArrowLeft') {
-				prevButton.click();
-			}
+		book.loaded.navigation.then((navigation) => {
+			navigation.forEach((chapter) => {
+				toc.push(chapter);
+
+				return {};
+			});
 		});
+
+		window.addEventListener('keydown', onKeyDown);
 	});
+
+	// $inspect(toc);
 </script>
 
 <div class="flex items-center justify-center gap-2">
+	<ul>
+		{#each toc as chapter (chapter.id)}
+			<TocItem book={params.id} item={chapter} />
+		{/each}
+	</ul>
 	<button onclick={prev} bind:this={prevButton} aria-label="previous page">p</button>
 	<div id="reader" class="h-80 w-80"></div>
 	<button onclick={next} bind:this={nextButton} aria-label="next page">n</button>
