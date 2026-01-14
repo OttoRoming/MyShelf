@@ -8,8 +8,9 @@
 </script>
 
 <li>
-	<a href={resolve('/home/reader/[id]/[[chapter]]', { id: book, chapter: item.href })}
-		>{item.label}</a
+	<a
+		href={resolve('/home/reader/[id]/[[chapter]]', { id: book, chapter: item.href })}
+		class="hover:underline">{item.label}</a
 	>
 	{#if item.subitems}
 		<ol class="list-disc pl-4">
