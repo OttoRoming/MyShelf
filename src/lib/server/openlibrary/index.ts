@@ -40,10 +40,10 @@ interface OpenLibraryDoc {
  * @param query - The search query string.
  */
 export async function search(query: string, limit: number = 1): Promise<OpenLibrarySearchResponse> {
-	let response = await ky.get(
+	const response = await ky.get(
 		`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=${limit}`
 	);
-	let data: OpenLibrarySearchResponse = await response.json();
+	const data: OpenLibrarySearchResponse = await response.json();
 
 	return data;
 }
@@ -80,8 +80,8 @@ interface OpenLibraryWorkResponse {
  * @param olid - The Open Library ID of the work.
  */
 export async function work(olid: string): Promise<OpenLibraryWorkResponse> {
-	let response = await ky.get(`https://openlibrary.org/works/${encodeURIComponent(olid)}.json`);
-	let data: OpenLibraryWorkResponse = await response.json();
+	const response = await ky.get(`https://openlibrary.org/works/${encodeURIComponent(olid)}.json`);
+	const data: OpenLibraryWorkResponse = await response.json();
 	return data;
 }
 
@@ -97,10 +97,51 @@ export async function cover(
 	value: string,
 	size: 'S' | 'M' | 'L'
 ): Promise<Blob> {
-	let response = await ky.get(
+	const response = await ky.get(
 		`https://covers.openlibrary.org/b/${encodeURIComponent(key)}/${encodeURIComponent(value)}-${encodeURIComponent(size)}.jpg`
 	);
-	let data = await response.blob();
+	const data = await response.blob();
 
+	return data;
+}
+
+interface OpenLibraryEditionsResponse {
+	links: {
+		self: string;
+		work: string;
+	};
+	size: number;
+	entries: {
+		type: { key: string };
+		authors: { key: string }[];
+		isbn_13?: string[];
+		languages: { key: string }[];
+		number_of_pages?: number;
+		publish_date?: string;
+		publishers?: string[];
+		source_records?: string[];
+		title: string;
+		weight?: string;
+		subtitle?: string;
+		full_title?: string;
+		works: { key: string }[];
+		key: string;
+		covers?: number[];
+		latest_revision: number;
+		revision: number;
+		created: { type: string; value: string };
+		last_modified: { type: string; value: string };
+	}[];
+}
+
+/**
+ * Fetch a work's editions
+ */
+export async function editions(olid: string): Promise<OpenLibraryEditionsResponse> {
+	const response = await ky.get(
+		`https://openlibrary.org/works/${encodeURIComponent(olid)}/editions.json`
+	);
+
+	const data: OpenLibraryEditionsResponse = await response.json();
 	return data;
 }
