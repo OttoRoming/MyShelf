@@ -24,8 +24,7 @@ export const book = sqliteTable('book', {
 	publishYear: integer('publish_year'),
 	description: text('description'),
 	publisher: text('publisher'),
-	language: text('language'),
-	explicit: integer('explicit', { mode: 'boolean' }).notNull().default(false)
+	language: text('language')
 });
 
 export const author = sqliteTable('author', {
