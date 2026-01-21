@@ -2,7 +2,6 @@
 	import ePub from 'epubjs';
 	import type { Book, Rendition, NavItem } from 'epubjs';
 	import type { PageProps } from './$types';
-	import { resolve } from '$app/paths';
 
 	import TocItem from '$lib/components/TocItem.svelte';
 
@@ -12,7 +11,15 @@
 	let rendition: Rendition;
 	let nextButton: HTMLButtonElement;
 	let prevButton: HTMLButtonElement;
+	let percentage = $state(0);
 	let toc: NavItem[] = $state([]);
+
+	function updatePercentage() {
+		const currentLocation = rendition.currentLocation();
+		percentage = currentLocation.percentage;
+
+		console.log({ percentage });
+	}
 
 	function prev() {
 		const b = book as unknown as { package: { metadata: { direction: string } } };
@@ -21,6 +28,8 @@
 		} else {
 			rendition.prev();
 		}
+
+		updatePercentage();
 	}
 
 	function next() {
@@ -30,6 +39,8 @@
 		} else {
 			rendition.next();
 		}
+
+		updatePercentage();
 	}
 
 	function onKeyDown(event: KeyboardEvent) {
@@ -49,13 +60,18 @@
 		window.removeEventListener('keydown', onKeyDown);
 
 		// setup the ePub book and rendition
-		book = ePub(`/api/books/${params.id}/ebook.epub`);
+		book = ePub(`/api/books/${params.book}/ebook.epub`);
 		rendition = book.renderTo('reader', {
 			width: '100%',
 			height: '100%',
 			spread: 'always'
 		});
-		rendition.display(params.chapter);
+		const displayed = rendition.display(params.chapter);
+
+		displayed.then(() => {
+			const currentLocation = rendition.currentLocation();
+			console.log({ currentLocation });
+		});
 
 		book.ready.then(() => {
 			console.log('Book is ready');
@@ -78,7 +94,7 @@
 <div class="flex items-center justify-center gap-2">
 	<ol class="list-disc">
 		{#each toc as chapter (chapter.id)}
-			<TocItem book={params.id} item={chapter} />
+			<TocItem book={params.book} item={chapter} />
 		{/each}
 	</ol>
 	<button onclick={prev} bind:this={prevButton} aria-label="previous page">p</button>
